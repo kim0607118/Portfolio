@@ -1,0 +1,5 @@
+<!DOCTYPE DisplayAttributes>
+<Lpp_Differences_List>
+    <LPP layer="cond" alpha="125" purpose="drawing"/>
+    <LPP layer="hole" rgb="8290321" purpose="drawing"/>
+</Lpp_Differences_List>

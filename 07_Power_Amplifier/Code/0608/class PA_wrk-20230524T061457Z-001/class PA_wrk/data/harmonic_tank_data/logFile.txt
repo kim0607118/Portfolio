@@ -1,0 +1,17 @@
+
+hpeesofsim (*) 570.shp Jul 18 2022, MINT version 5
+    (64-bit windows built: Tue Jul 19, 2022 06:26:23 +0000)
+
+
+***** Simulation started at Wed May 24 15:52:29 2023
+      Running on host: "BOOK-6T5L5KN4QD"
+      In Directory: "C:\Users\HYU\Desktop\class PA_wrk-20230524T061457Z-001\class PA_wrk\data"
+      Process ID: 8172
+
+
+SP SP1[1] <class PA_lib:harmonic_tank:schematic>   freq=(100 MHz->6 GHz)
+
+
+Resource usage:
+  Total stopwatch time     =     8.47 seconds.
+

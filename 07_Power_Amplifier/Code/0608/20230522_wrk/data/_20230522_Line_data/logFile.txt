@@ -1,0 +1,17 @@
+
+hpeesofsim (*) 572.shp Mar 28 2023, MINT version 5
+    (64-bit windows built: Tue Mar 28, 2023 23:58:00 +0000)
+
+
+***** Simulation started at Mon May 22 15:22:45 2023
+      Running on host: "BOOK-6T5L5KN4QD"
+      In Directory: "C:\Users\HYU\20230522_wrk\data"
+      Process ID: 5140
+
+
+SP SP1[1] <20230522_lib:20230522_Line:schematic>   freq=(100 MHz->20 GHz)
+
+
+Resource usage:
+  Total stopwatch time     =    12.50 seconds.
+

@@ -1,0 +1,49 @@
+
+hpeesofsim (*) 570.shp Jul 18 2022, MINT version 5
+    (64-bit windows built: Tue Jul 19, 2022 06:26:23 +0000)
+
+
+***** Simulation started at Wed May 24 20:01:14 2023
+      Running on host: "BOOK-6T5L5KN4QD"
+      In Directory: "C:\Users\HYU\20230522_wrk\data"
+      Process ID: 1856
+
+
+CT Sweep1[1] <20230522_lib:ideal transistor:schematic>   VGS=(0->2)
+
+DC Sweep1[1].DC1[1/11] <20230522_lib:ideal transistor:schematic>  VGS=0  VDS=(0->6)
+.............................................................
+
+DC Sweep1[1].DC1[2/11] <20230522_lib:ideal transistor:schematic>  VGS=200e-03  VDS=(0->6)
+.............................................................
+
+DC Sweep1[1].DC1[3/11] <20230522_lib:ideal transistor:schematic>  VGS=400e-03  VDS=(0->6)
+.............................................................
+
+DC Sweep1[1].DC1[4/11] <20230522_lib:ideal transistor:schematic>  VGS=600e-03  VDS=(0->6)
+.............................................................
+
+DC Sweep1[1].DC1[5/11] <20230522_lib:ideal transistor:schematic>  VGS=800e-03  VDS=(0->6)
+.............................................................
+
+DC Sweep1[1].DC1[6/11] <20230522_lib:ideal transistor:schematic>  VGS=1  VDS=(0->6)
+.............................................................
+
+DC Sweep1[1].DC1[7/11] <20230522_lib:ideal transistor:schematic>  VGS=1.2  VDS=(0->6)
+.............................................................
+
+DC Sweep1[1].DC1[8/11] <20230522_lib:ideal transistor:schematic>  VGS=1.4  VDS=(0->6)
+.............................................................
+
+DC Sweep1[1].DC1[9/11] <20230522_lib:ideal transistor:schematic>  VGS=1.6  VDS=(0->6)
+.............................................................
+
+DC Sweep1[1].DC1[10/11] <20230522_lib:ideal transistor:schematic>  VGS=1.8  VDS=(0->6)
+.............................................................
+
+DC Sweep1[1].DC1[11/11] <20230522_lib:ideal transistor:schematic>  VGS=2  VDS=(0->6)
+.............................................................
+
+Resource usage:
+  Total stopwatch time     =     4.09 seconds.
+

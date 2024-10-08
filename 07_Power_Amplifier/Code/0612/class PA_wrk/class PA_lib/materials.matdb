@@ -1,0 +1,17 @@
+<!DOCTYPE Materials>
+<Materials>
+    <Conductors>
+        <Conductor tc2="" heat_capacity="2.49E+06" name="Copper" thermal_conductivity="401" tc1="" real="5.8e7 Siemens/m" parmtype="1" imag="" mur_real="1" tnom="" thermal_conductivity_in_z="" mur_imag="" electron_path=""/>
+        <Conductor tc2="" heat_capacity="" name="Typical_solder" thermal_conductivity="" tc1="" real="0.71e7 Siemens/m" parmtype="1" imag="" mur_real="1" tnom="" thermal_conductivity_in_z="" mur_imag="" electron_path=""/>
+    </Conductors>
+    <Dielectrics>
+        <Dielectric lowfreq="1 KHz" er_imag="" heat_capacity="" name="FR_4_Core" thermal_conductivity="" loss_type="1" mur_real="1" er_loss="0.01" highfreq="1 THz" thermal_conductivity_in_z="" er_real="4.6" mur_imag="" electron_path="" valuefreq="1 GHz"/>
+        <Dielectric lowfreq="1 KHz" er_imag="" heat_capacity="" name="FR_4_Prepreg" thermal_conductivity="" loss_type="1" mur_real="1" er_loss="0.01" highfreq="1 THz" thermal_conductivity_in_z="" er_real="4.6" mur_imag="" electron_path="" valuefreq="1 GHz"/>
+        <Dielectric lowfreq="1 KHz" er_imag="" heat_capacity="" name="SolderMask" thermal_conductivity="" loss_type="1" mur_real="1" er_loss="" highfreq="1 THz" thermal_conductivity_in_z="" er_real="3.3" mur_imag="" electron_path="" valuefreq="1 GHz"/>
+        <Dielectric lowfreq="1 KHz" er_imag="" heat_capacity="" name="FR_4" thermal_conductivity="" loss_type="1" mur_real="1" er_loss="0.025" highfreq="1 THz" thermal_conductivity_in_z="" er_real="4.2" mur_imag="" electron_path="" valuefreq="1 GHz"/>
+        <Dielectric lowfreq="1 KHz" er_imag="" heat_capacity="1.73E+06" name="Alumina" thermal_conductivity="25.25" loss_type="1" mur_real="1" er_loss="" highfreq="1 THz" thermal_conductivity_in_z="" er_real="9.6" mur_imag="" electron_path="" valuefreq="1 GHz"/>
+        <Dielectric lowfreq="1 KHz" er_imag="" heat_capacity="" name="FR_41" thermal_conductivity="" loss_type="1" mur_real="1" er_loss="0.01" highfreq="1 THz" thermal_conductivity_in_z="" er_real="4.6" mur_imag="" electron_path="" valuefreq="1 GHz"/>
+    </Dielectrics>
+    <Semiconductors/>
+    <roughness/>
+</Materials>

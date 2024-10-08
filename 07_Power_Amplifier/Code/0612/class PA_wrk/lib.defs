@@ -1,0 +1,5 @@
+INCLUDE $HPEESOF_DIR/oalibs/analog_rf.defs
+INCLUDE $HPEESOF_DIR/oalibs/dsp.defs
+DEFINE class#20PA_lib class${__SPACE}PA_lib
+ASSIGN class#20PA_lib libMode shared
+INCLUDE $HOME/muRataLibWeb_EIA/lib.defs

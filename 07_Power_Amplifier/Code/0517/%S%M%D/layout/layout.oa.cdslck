@@ -1,0 +1,16 @@
+#
+# Edit Lock-Stake file. CAUTION: Please do not change.
+#
+# Information about current Edit Lock Owner.
+#
+LockStakeVersion               1.1
+LoginName                      HYU
+HostName                       BOOK-6T5L5KN4QD
+ProcessIdentifier              5828
+ProcessCreationTime_UTC        1684303107
+ProcessCreationTime_Readable   Wed May 17 14:58:27 2023 대한민국 표준시
+AppIdentifier                  OA File System Design Manager
+OSType                         win32
+ReasonForPlacingEditLock       OpenAccess edit lock
+FilePathUsedToEditLock         C:\Users\HYU\Desktop\asad_wrk\asad_wrk\asad_lib\%S%M%D\layout\layout.oa.cdslck
+TimeEditLocked                 Wed May 17 15:47:28 2023 대한민국 표준시

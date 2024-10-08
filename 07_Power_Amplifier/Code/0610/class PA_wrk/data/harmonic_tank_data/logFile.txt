@@ -1,0 +1,17 @@
+
+hpeesofsim (*) 571.shp Nov  8 2022, MINT version 5
+    (64-bit windows built: Wed Nov 09, 2022 05:38:21 +0000)
+
+
+***** Simulation started at Sat Jun 10 23:59:27 2023
+      Running on host: "�����"
+      In Directory: "C:\Users\kim06\수업\아날로그 응용회로\pbl\저장물\0610\class PA_wrk\data"
+      Process ID: 18048
+
+
+SP SP1[1] <class PA_lib:harmonic_tank:schematic>   freq=(100 MHz->10 GHz)
+
+
+Resource usage:
+  Total stopwatch time     =     0.42 seconds.
+

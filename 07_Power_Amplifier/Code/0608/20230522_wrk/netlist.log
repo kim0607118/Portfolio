@@ -1,0 +1,103 @@
+; Top Design: "20230522_lib:HB1Tone_LoadPull:schematic"
+; Netlisted using Hierarchy Policy: "Standard"
+
+Options ResourceUsage=yes UseNutmegFormat=no EnableOptim=no TopDesignName="20230522_lib:HB1Tone_LoadPull:schematic" DcopOutputNodeVoltages=yes DcopOutputPinCurrents=yes DcopOutputAllSweepPoints=no DcopOutputDcopType=0
+; Library Name: 20230522_lib
+; Cell Name: tr_sample_forhyu
+; View Name: schematic
+define tr_sample_forhyu ( P1  P2  P3 ) 
+parameters  T_area=1 
+"Sample1":FET1  P1 P2 P3 Area=T_area Noise=yes _M=1 
+model Sample1 GaAs NFET=1 PFET=0 Idsmod=7 Vto=0 Beta=0.1 Lambda=0 Alpha=20 B=0.01 Vbi=1.8 Tau=61.0e-12 Cgs=14.0e-20 Cgd=0 Rgd=0 Fc=0.5 Rd=0 Rg=0 Rs=0 Cds=0 Crf=0 Rc=14000 Is=1e-14 Imax=0.1 A Imelt=0.1 A N=1.2 Eg=1 Vbr=0 Rin=50 Taumdl=1 wIdsmax=1 A 
+R:R1  P2 0 R=50 Ohm Noise=yes 
+end tr_sample_forhyu
+
+HB:HB1 MaxOrder=4 Freq[1]=RFfreq Order[1]=5 StatusLevel=3 FundOversample=1 \
+Restart=no UseAllSS_Freqs=yes UseOutFile=no \
+HBSS_WSP=0 UseInFile=no SweepVar="real_indexs11" SweepPlan="HB1_stim" OutputPlan="HB1_Output" 
+
+SweepPlan: HB1_stim Start=real(s11_center)-c_limit Stop=real(s11_center)+c_limit Lin=pts_per_line 
+
+OutputPlan:HB1_Output \
+      Type="Output" \
+      UseNodeNestLevel=yes \
+      NodeNestLevel=2 \
+      UseEquationNestLevel=yes \
+      EquationNestLevel=2 \
+      EquationName[1]="Pavs" \
+      EquationName[2]="Z0" \
+      UseSavedEquationNestLevel=yes \
+      SavedEquationNestLevel=2 \
+      UseDeviceCurrentNestLevel=no \
+      DeviceCurrentNestLevel=0 \
+      DeviceCurrentDeviceType="All" \
+      DeviceCurrentSymSyntax=yes \
+      UseCurrentNestLevel=yes \
+      CurrentNestLevel=999 \
+      UseDeviceVoltageNestLevel=no \
+      DeviceVoltageNestLevel=0 \
+      DeviceVoltageDeviceType="All"
+
+Tran:HB1_tran HB_Sol=1 SteadyState=1 StatusLevel=3 \
+Freq[1]=RFfreq Order[1]=5 
+
+Component:tahb_HB1 Module="ATAHB" Type="ModelExtractor" \ 
+ Tran_Analysis="HB1_tran" HB_Analysis="HB1" 
+
+Short:I_In  N__3 V_In Mode=0 SaveCurrent=yes 
+Port:PORT1  N__3 0 Num=1 Z=Z_s P[1]=dbmtow(Pavs) Freq[1]=RFfreq    Noise=yes Pac=dbmtow(0) 
+#uselib "ckt" , "P_Probe"
+P_Probe:P_Load  N__6 N__5 
+ParamSweep:Sweep1 SimInstanceName[1]="HB1" StatusLevel=2 SweepVar="imag_indexs11" SweepPlan="Sweep1_stim" 
+
+SweepPlan: Sweep1_stim Start=imag(s11_center)-(max_rho-max_rho/(lines+1)) Stop=imag(s11_center)+(max_rho-max_rho/(lines+1)) Lin=lines 
+
+
+;Tuner reflection coefficient=
+LoadTuner = LoadArray[iload]
+LoadArray = list(0,indexs11, fg(Z_l_2), fg(Z_l_3), fg(Z_l_4), fg(Z_l_5))
+iload = int(min(abs(freq)/RFfreq+1.5,length(LoadArray)))
+fg(x) =(x-conj(Z0))/(x+Z0)
+;Source impedances=
+Z_s = SrcArray[isrc]
+SrcArray = list(Z0, Z_s_fund, Z_s_2,Z_s_3,Z_s_4,Z_s_5)
+isrc = min(iload,length(SrcArray))
+
+Z_l_2 =10*Z0 + j*0
+Z_l_3 =10*Z0 + j*0
+Z_l_4 =10* Z0 + j*0
+Z_l_5 =10* Z0 + j*0
+Z_s_fund =50 + j*0
+Z_s_2=10* Z0 + j*0
+Z_s_3 =10* Z0 + j*0
+Z_s_4 =10* Z0 + j*0
+Z_s_5 =10* Z0 + j*0
+V_Source:SRC1  Vs_high 0 Type="V_DC" Vdc=Vhigh SaveCurrent=1 
+V_Source:SRC2  Vs_low 0 Type="V_DC" Vdc=Vlow SaveCurrent=1 
+L:L2  N__8 N__11 L=1 uH Noise=yes  
+L:L1  N__10 N__9 L=1 uH Noise=yes  
+Short:Is_low  Vs_low N__8 Mode=0 SaveCurrent=yes 
+Short:Is_high  Vs_high N__10 Mode=0 SaveCurrent=yes 
+C:C1  V_In N__11 C=1.0 uF 
+S_Port:S1  N__5 0 S[1,1]=LoadTuner Z[1]=Z0 
+
+real_indexs11=0
+imag_indexs11=0
+indexs11=real_indexs11+j*imag_indexs11
+argument =max_rho^2-(imag(s11_center)-imag_indexs11)^2
+c_limit=sqrt(if ((argument) <0) then 0 else argument endif)
+s11_rho =0.7
+s11_center =0.0 +j*0.0
+max_rho = min(1.0 - mag(s11_center), mag(s11_rho))
+pts=1000
+lines=max(int(sqrt(pts)),1)
+pts_per_line=int(pts/lines)
+Z0=50
+model FLC301XP GaAs NFET=1 PFET=0 Idsmod=3 Vto=-4 Beta=0.0999 Lambda=0 Alpha=1.7 B=0.0569 Vbi=1.8 Tau=61.0e-12 Cgs=14.0e-12 Cgd=2.4e-12 Rgd=0.98 Fc=0.5 Rd=0.23 Rg=0.03 Rs=0.06 Cds=1.0e-12 Crf=4e-7 Rc=1400 Is=1e-14 N=1.2 Eg=1.11 Vbr=0 Taumdl=1 
+C:C2  N__9 N__6 C=1.0 uF 
+
+Pavs=8 _dBm
+RFfreq=1 GHz
+Vhigh=3
+Vlow=1.2
+tr_sample_forhyu:X1  N__9 N__11 0 T_area=0.38 

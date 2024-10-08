@@ -1,0 +1,137 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "o_VSync",
+					"strict" : false
+				},
+				{
+					"name" : "o_HSync",
+					"strict" : false
+				},
+				{
+					"name" : "o_Blank",
+					"strict" : false
+				},
+				{
+					"name" : "o_Red[0]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Red[1]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Red[2]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Red[3]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Red[4]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Red[5]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Red[6]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Red[7]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Green[0]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Green[1]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Green[2]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Green[3]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Green[4]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Green[5]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Green[6]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Green[7]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Blue[0]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Blue[1]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Blue[2]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Blue[3]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Blue[4]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Blue[5]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Blue[6]",
+					"strict" : false
+				},
+				{
+					"name" : "o_Blue[7]",
+					"strict" : false
+				},
+				{
+					"name" : "o_VGA_Clock",
+					"strict" : false
+				},
+				{
+					"name" : "i_Reset",
+					"strict" : false
+				},
+				{
+					"name" : "i_Clock",
+					"strict" : false
+				},
+				{
+					"name" : "i_ps2c",
+					"strict" : false
+				},
+				{
+					"name" : "i_ps2d",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,17 @@
+
+hpeesofsim (*) 571.shp Nov  8 2022, MINT version 5
+    (64-bit windows built: Wed Nov 09, 2022 05:38:21 +0000)
+
+
+***** Simulation started at Sun Jun 11 03:14:25 2023
+      Running on host: "DESKTOP-O0S07G1"
+      In Directory: "E:\공부\학교\4학년 1학기\아날로그응용회로\class PA_wrk-20230524T061457Z-001\class PA_wrk-20230524T061457Z-001\class PA_wrk\data"
+      Process ID: 30220
+
+
+SP SP1[1] <class PA_lib:DC_BLock_Cap:schematic>   freq=(100 MHz->10 GHz)
+
+
+Resource usage:
+  Total stopwatch time     =     0.94 seconds.
+

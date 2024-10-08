@@ -1,0 +1,364 @@
+; Top Design: "class PA_lib:Class_PA_LP:schematic"
+; Netlisted using Hierarchy Policy: "Standard"
+
+Options ResourceUsage=yes UseNutmegFormat=no EnableOptim=no TopDesignName="class PA_lib:Class_PA_LP:schematic" DcopOutputNodeVoltages=yes DcopOutputPinCurrents=yes DcopOutputAllSweepPoints=no DcopOutputDcopType=0
+; Library Name: class PA_lib
+; Cell Name: fet_81xp
+; View Name: schematic
+define fet_81xp ( P1  P2  P3 ) 
+parameters  T_area=1  F_num=1 
+"FLC081XP":EEFET1  N__1 N__0 N__2 Ugw=0.000001*T_area N=F_num Noise=yes _M=1 
+L:L1  P2 N__0 L=0.322 nH Noise=yes  
+L:L2  N__1 P1 L=0.298 nH Noise=yes  
+L:L3  N__2 P3 L=0.0927 nH Noise=yes  
+model FLC081XP EE_FET3 Vto=-1.975367 Gamma=0.020060 Vgo=-1.030078 Vdelt=0.099871 Vch=1.0 Gmmax=0.147941 Vdso=2.0 Vsat=1.696747 Kapa=0.255487 Peff=3.0 Vtso=-10.0 Is=1.51e-12 N=1.5 Ris=2.170776 Tau=1.27e-11 Cdso=3.89e-13 Rdb=1.0e+9 Cbs=1.60e-13 Vtoac=-2.099417 Gammaac=0.022542 Vdeltac=0.012398 Gmmaxac=0.198057 Kapaac=6.47e-8 Peffac=20.36817 Vtsoac=-10.0 Gdbm=0.012170 Kdb=16.81255 Vdsm=1.0 C11o=2.72e-12 C11th=1.08e-12 Vinfl=-1.473580 Deltgs=2.002681 Deltds=1.174060 Lambda=0.049380 C12sat=3.12e-21 Cgdsat=3.12e-21 Kbk=0.030 Vbr=21.10 Nbr=2.0 Idsoc=0.374360 Rd=0.05 Rs=0.02 Rg=0.1 Ugw=0.000075 Ngf=10.0 
+R:R1  N__5 0 R=1000 Ohm Noise=yes 
+C:C1  N__5 P2 C=1500 pF 
+end fet_81xp
+
+Port:PORT1  N__1 0 Num=1 Z=1.960+j*3.514 Ohm P[1]=dbmtow(RFpower) Freq[1]=3 GHz    Noise=yes Pac=polar(dbmtow(0),0) LimitPhaseNoiseToCarrier=no 
+#uselib "ckt" , "P_Probe"
+P_Probe:P_Load1  N__1 N__3 
+Short:I_In  N__3 V_in Mode=0 SaveCurrent=yes 
+Short:DC_Block1  V_in N__32 Mode=1 
+Short:DC_Feed1  N__11 N__32 Mode=-1 
+Short:Is_Low  Vs_low N__11 Mode=0 SaveCurrent=yes 
+V_Source:SRC1  Vs_low 0 Type="V_DC" Vdc=Vlow SaveCurrent=1 
+fet_81xp:X1  V_out_Tr N__32 0 T_area=10 F_num=100 
+Short:I_out_Tr  N__25 V_out_Tr Mode=0 SaveCurrent=yes 
+Short:DC_Feed2  N__21 N__25 Mode=-1 
+Short:Is_high  N__21 Vs_high Mode=0 SaveCurrent=yes 
+V_Source:SRC2  Vs_high 0 Type="V_DC" Vdc=Vhigh SaveCurrent=1 
+SP_Probe:SP_Probe1  N__25 N__28 0 Z=50 Ohm UsePorts=no L_Port[1]=1 R_Port[1]=2 
+GRM03:C2  N__28 N__29 PartNumber=688 
+Short:I_out  N__29 V_out Mode=0 SaveCurrent=yes 
+#uselib "ckt" , "P_Probe"
+P_Probe:P_Load  V_out N__33 
+Port:Term2  N__20 0 Num=2 Z=50 Ohm Noise=yes 
+S_Param:SP1 CalcS=yes CalcY=no CalcZ=no GroupDelayAperture=1e-4 FreqConversion=no FreqConversionPort=1 StatusLevel=2 CalcNoise=no SortNoise=0 BandwidthForNoise=1.0 Hz DevOpPtLevel=0 SPSS_WSP=yes \
+SweepVar="freq" SweepPlan="SP1_stim" OutputPlan="SP1_Output" 
+
+SweepPlan: SP1_stim Start=0.1 GHz Stop=10 GHz Step=0.1 GHz 
+
+OutputPlan:SP1_Output \
+      Type="Output" \
+      UseEquationNestLevel=yes \
+      EquationNestLevel=2 \
+      UseSavedEquationNestLevel=yes \
+      SavedEquationNestLevel=2
+
+#load "python","LinearCollapse"
+Component Module="LinearCollapse" Type="ModelExtractor" NetworkRepresentation=2
+
+Vhigh=4
+RFpower=20
+RFfreq=3GHz
+Vlow=-1.4
+aele MaxGain1=max_gain(S);
+HB:HB1 MaxOrder=4 Freq[1]=3 GHz Order[1]=5 StatusLevel=2 HBSS_WSP=0 SweepVar="RFpower" SweepPlan="HB1_stim" OutputPlan="HB1_Output" 
+
+SweepPlan: HB1_stim Start=-10 Stop=30 Step=1 
+
+OutputPlan:HB1_Output \
+      Type="Output" \
+      UseNodeNestLevel=yes \
+      NodeNestLevel=2 \
+      UseEquationNestLevel=yes \
+      EquationNestLevel=2 \
+      UseSavedEquationNestLevel=yes \
+      SavedEquationNestLevel=2 \
+      UseDeviceCurrentNestLevel=no \
+      DeviceCurrentNestLevel=0 \
+      DeviceCurrentDeviceType="All" \
+      DeviceCurrentSymSyntax=yes \
+      UseCurrentNestLevel=yes \
+      CurrentNestLevel=999 \
+      UseDeviceVoltageNestLevel=no \
+      DeviceVoltageNestLevel=0 \
+      DeviceVoltageDeviceType="All"
+
+Tran:HB1_tran HB_Sol=1 SteadyState=1 StatusLevel=3 \
+Freq[1]=3 GHz Order[1]=5 
+
+Component:tahb_HB1 Module="ATAHB" Type="ModelExtractor" \ 
+ Tran_Analysis="HB1_tran" HB_Analysis="HB1" 
+
+fet_81xp:X2  V_out_Tr N__32 0 T_area=10 F_num=100 
+fet_81xp:X3  V_out_Tr N__32 0 T_area=10 F_num=100 
+aele Zin2=zin(S22,PortZ1);
+aele Zin1=zin(S11,PortZ1);
+SP_Probe:SP_Probe2  N__33 N__19 0 Z=50 Ohm UsePorts=no L_Port[1]=1 R_Port[1]=2 
+MLIN2:TL2  N__19 N__23 Subst="MSub1" W=0.24 mm L=0.59 mm Wall1=1.0E+30 mil Wall2=1.0E+30 mil Mod=1 
+GRM03:C1  N__20 0 PartNumber=122 
+
+#ifndef muRataLibWeb
+#define muRataLibWeb
+; models
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/ZRB18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/ZRB15.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/ZRA21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/NFZ5BBW.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/NFZ32SW.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/NFZ32BW.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/NFZ2MSM.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/NFZ2HBM.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/NFZ18SM.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/NFZ15SG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/NFZ15SF.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/NFZ03SG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW43FT_0H.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW32FT_0H.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW2UAS_0C.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW2UAS_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW2BAS_0C.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW2BAS_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW2BAN_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW21HN_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW21FT_0H.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW18CN_0Z.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW18CN_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW18CA_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW18AS_0Z.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW18AS_0C.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW18AS_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW18AN_8Z.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW18AN_80.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW18AN_1Z.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW18AN_10.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW18AN_0Z.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW18AN_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW15DN_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW15CN_1Z.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW15CN_10.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW15CN_0Z.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW15CN_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW15CE_10.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW15CA_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW15AW_80.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW15AN_8Z.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW15AN_80.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW15AN_1Z.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW15AN_10.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW15AN_0Z.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW15AN_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW04CA_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW04AN_20.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW04AN_10.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW04AN_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQW03AW_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQP15MN_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQP03TQ_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQP03TN_Z2.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQP03TN_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQP03TG_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQP03PN_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQP03HQ_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQP02TQ_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQP02TN_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQP02HQ_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQG18HN_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQG18HH_00.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQG15WZ_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQG15WH_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQG15HZ_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQG15HS_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQG15HN_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LQG15HH_02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LLR18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LLL31.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LLL21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LLL1U.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LLL18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LLL15.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/LLC15.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/KRM55.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/KRM31.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/KRM21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/KR355.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/KCM55.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/KCA55.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/KC355.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GXT32.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GXT31.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GXT21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GXT18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GXT15.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRT32.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRT31.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRT21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRT18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRT15.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRT03.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRMMD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRMJN.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRM55.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRM43.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRM42.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRM32.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRM31.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRM21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRM18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRM15.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRM03.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRM02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRM01.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRJ55.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRJ43.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRJ32.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRJ31.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRJ21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRJ18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRJ15.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GRJ03.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GR731.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GR721.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GR455.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GR443.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GR442.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GR432.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GR431.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GR355.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GR343.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GR332.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GR331.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GR321.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GQM22.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GQM21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GQM18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GQM15.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GJM15.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GJM03.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GJM02.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GJ832.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GJ831.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GJ821.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GJ431.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GGM32.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GGM31.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GGM21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GGM18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GGM15.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GGD21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GGD18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCQ15.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCM55.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCM43.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCM32.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCM31.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCM21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCM18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCM15.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCM03.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCJ55.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCJ43.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCJ32.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCJ31.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCJ21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCJ18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCH32.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCH31.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCH21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCH18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCH15.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCH03.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCE21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCE18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCD21.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GCD18.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GC355.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GC343.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GC332.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GC331.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GC321.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GA355.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GA352.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GA343.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GA342.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GA255.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GA243.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/GA242.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/encode.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM41PG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM31SN.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM31PG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM31KN.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM31AJ.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM21SP.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM21SN.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM21RK.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM21PG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM21BD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM21BB.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM21AG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18TG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18SP.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18SN.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18SG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18SD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18RK.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18PG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18KN.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18KG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18HK.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18HG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18HE.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18HD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18HB.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18GG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18EG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18DN.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18BD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18BB.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18BA.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM18AG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15PX.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15PG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15PE.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15PD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15KD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15HG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15HD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15HB.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15GG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15GA.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15EX.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15EG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15BX.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15BD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15BC.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15BB.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15BA.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15AX.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM15AG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM03PX.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM03PG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM03HG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM03HD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM03HB.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM03EB.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM03BX.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM03BD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM03BC.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM03BB.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM03AX.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM03AG.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM02PX.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM02KX.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM02BX.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM02BC.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM02BB.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLM02AX.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLF03VK.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLF03RD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLF03JD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLF02RD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLF02JD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLF02GD.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLE32PN.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLE18PS.net"
+#include "C:/Users/kim06/OneDrive/바탕 화면/muRataLibWeb_EIA/circuit/models/BLE18PK.net"
+#endif
+
+
+LQP03TG_02:L1  N__23 N__20 PartNumber=8 
+model MSub1 MSUB H=400 um Er=4.2 Mur=1 Cond=5.8E+7 Hu=1e+33 um T=18 um TanD=0.025 Rough=0 mm DielectricLossModel=1 FreqForEpsrTanD=1.0 GHz LowFreqForTanD=1.0 kHz HighFreqForTanD=1.0 THz RoughnessModel=2 

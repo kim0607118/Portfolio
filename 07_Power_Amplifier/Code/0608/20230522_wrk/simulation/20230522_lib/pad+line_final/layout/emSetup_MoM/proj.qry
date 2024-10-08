@@ -1,0 +1,16 @@
+#Momentum: B.2023.00.265 (*) built: Jul  1 2022 
+#Momentum Date and Time: Wed May 31 16:01:05 2023
+
+Overall database status : 1 (file present and valid)
+
+Frequency range : from 0.01518383474 GHz to 20 GHz.
+
+Requested frequency range : from 0.01518383474 GHz to 20 GHz.
+
+Individual status fields : (0 = FALSE, 1 = TRUE)
+ File exists             : 1
+ Substrates match        : 1
+ Frequency-range matches : 1
+
+Corresponding potentialpath : C:\Users\HYU/
+Corresponding potentialname : C:\Users\HYU\\substrates\0001.sdb

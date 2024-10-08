@@ -1,0 +1,28 @@
+
+hpeesofsim (*) 572.shp Mar 28 2023, MINT version 5
+    (64-bit windows built: Tue Mar 28, 2023 23:58:00 +0000)
+
+
+***** Simulation started at Thu May 25 20:22:19 2023
+      Running on host: "BOOK-6T5L5KN4QD"
+      In Directory: "C:\Users\HYU\20230518_wrk\data"
+      Process ID: 15184
+
+Pt DC convergence is used.
+
+SP SP1[1] <20230518_lib:case3_matching:schematic>   freq=(100 MHz->3 GHz)
+
+Warning detected by hpeesofsim during circuit set up.
+    `P_load1': Unable to resolve variable(s) or functions(s) in expression ` p=if (_sp_state) then 0.0 elseif (freq==0.0 || _tr_state) then real(deltav*conj(sh1.i)) else 0.5*real(deltav*conj(sh1.i)) endif'
+        deltav
+        sh1.i
+
+Warning detected by hpeesofsim during circuit set up.
+    `P_Load2': Unable to resolve variable(s) or functions(s) in expression ` p=if (_sp_state) then 0.0 elseif (freq==0.0 || _tr_state) then real(deltav*conj(sh1.i)) else 0.5*real(deltav*conj(sh1.i)) endif'
+        deltav
+        sh1.i
+
+
+Resource usage:
+  Total stopwatch time     =     7.89 seconds.
+

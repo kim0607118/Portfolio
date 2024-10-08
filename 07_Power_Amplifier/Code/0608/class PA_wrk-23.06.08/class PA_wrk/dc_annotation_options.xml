@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dc_annotation_options>
+ <options library="class PA_lib" view="schematic" cell="Class_PA_LP" ToggleVoltage="false" ToggleCurrent="false"/>
+</dc_annotation_options>

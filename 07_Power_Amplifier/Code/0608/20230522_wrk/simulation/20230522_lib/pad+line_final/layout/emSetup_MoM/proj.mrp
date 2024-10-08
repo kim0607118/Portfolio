@@ -1,0 +1,23 @@
+Automatically determined a snap distance of
+0.053 um for layout healing.
+
+--- WARNING -------------------------------------------------------------------
+
+The port setup needed to be corrected:
+Calibration will not be used for port "P1" (pins
+"P1", "P3" and "P4" are not on the edge between
+a conductive and a nonconductive region).
+
+-------------------------------------------------------------------------------
+
+
+--- WARNING -------------------------------------------------------------------
+
+The port setup needed to be corrected:
+Calibration will not be used for port "P2" (pins
+"P2", "P5" and "P6" are not on the edge between
+a conductive and a nonconductive region).
+
+-------------------------------------------------------------------------------
+
+Generating mesh at 20 GHz...

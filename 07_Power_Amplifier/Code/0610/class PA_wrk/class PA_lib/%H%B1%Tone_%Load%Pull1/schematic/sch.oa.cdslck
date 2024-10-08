@@ -1,0 +1,16 @@
+#
+# Edit Lock-Stake file. CAUTION: Please do not change.
+#
+# Information about current Edit Lock Owner.
+#
+LockStakeVersion               1.1
+LoginName                      User
+HostName                       DESKTOP-O0S07G1
+ProcessIdentifier              33140
+ProcessCreationTime_UTC        1686294865
+ProcessCreationTime_Readable   Fri Jun  9 16:14:25 2023 ���ѹα� ǥ�ؽ�
+AppIdentifier                  OA File System Design Manager
+OSType                         win32
+ReasonForPlacingEditLock       OpenAccess edit lock
+FilePathUsedToEditLock         E:\공부\학교\4학년 1학기\아날로그응용회로\class PA_wrk-20230524T061457Z-001\class PA_wrk-20230524T061457Z-001\class PA_wrk\class PA_lib\%H%B1%Tone_%Load%Pull1\schematic\sch.oa.cdslck
+TimeEditLocked                 Fri Jun  9 16:15:06 2023 ���ѹα� ǥ�ؽ�
