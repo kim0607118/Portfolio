@@ -1,0 +1,16 @@
+#
+# Edit Lock-Stake file. CAUTION: Please do not change.
+#
+# Information about current Edit Lock Owner.
+#
+LockStakeVersion               1.1
+LoginName                      SoC01
+HostName                       kgkorcham
+ProcessIdentifier              84560
+ProcessCreationTime_UTC        1728516006
+ProcessCreationTime_Readable   Thu Oct 10 08:20:06 2024 KST
+AppIdentifier                  OA File System Design Manager
+OSType                         unix
+ReasonForPlacingEditLock       OpenAccess edit lock
+FilePathUsedToEditLock         /home/SoC01/gpdk090_v4.6/KYH/2NOR_TEST/schematic/sch.oa.cdslck
+TimeEditLocked                 Thu Oct 10 14:31:25 2024 KST
